@@ -1,0 +1,9 @@
+# directories
+debug/
+target/
+
+# add Cargo.lock if making libraries
+# Cargo.lock
+
+# ignore backup files created by rustfmt
+**/*.rs.bk

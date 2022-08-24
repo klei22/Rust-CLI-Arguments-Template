@@ -44,6 +44,6 @@ fn main() {
     let all_caps = matches.is_present("all_caps");
 
     if let Some(filename) = matches.value_of("input_file") {
-        print_file_contents(&filename, &all_caps);
+        print_file_contents(filename, &all_caps);
     }
 }

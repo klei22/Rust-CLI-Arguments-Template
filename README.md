@@ -1,5 +1,6 @@
 # Rust Template for CLI Arguments
 
+
 This is a plain template for how to utilize cli arguments in Rust.
 
 ## Current Examples
@@ -7,6 +8,15 @@ This is a plain template for how to utilize cli arguments in Rust.
 - [x] options (e.g. "-f file.txt")
 - [x] true/false flags (e.g. "-q" for "quiet")
 - [ ] options with matching
+
+## Workflow
+
+- `cargo build` - build
+- `cargo clippy` - run the friendly rust linter
+- `cargo run` - run
+- `cargo run -q` - run quiet
+- `cargo run -q -- -f just_a_test.txt` - run with file input flag
+- `cargo run -q -- -f just_a_test.txt -A` - run with boolean flag
 
 ## References
 

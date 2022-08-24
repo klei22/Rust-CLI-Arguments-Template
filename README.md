@@ -18,6 +18,11 @@ This is a plain template for how to utilize cli arguments in Rust.
 - `cargo run -q -- -f just_a_test.txt` - run with file input flag
 - `cargo run -q -- -f just_a_test.txt -A` - run with boolean flag
 
+## Documentation
+
+- `cargo doc` - create documentation
+- `cargo doc --open` - open documentation
+
 ## References
 
 - [clap-rs-clap-rust-command-line](https://rustrepo.com/repo/clap-rs-clap-rust-command-line#using-builder-pattern)

@@ -1,8 +1,8 @@
 use clap::{App, Arg, ArgMatches};
 
+use std::error::Error;
 use std::fs::File;
-use std::io::prelude::*;
-use std::io::BufReader;
+use std::io::{BufRead, BufReader};
 
 fn get_args() -> ArgMatches {
     App::new("cli_template")
@@ -14,7 +14,7 @@ fn get_args() -> ArgMatches {
                 .short('f')
                 .long("input")
                 .value_name("INPUT_FILE")
-                .help("path to input file")
+                .help("path to input file, or '-' for stdin")
                 .takes_value(true),
         )
         .arg(
@@ -26,24 +26,37 @@ fn get_args() -> ArgMatches {
         .get_matches()
 }
 
-fn print_file_contents(filename: &str, all_caps: &bool) {
-    let f = File::open(filename).unwrap();
-    let reader = BufReader::new(f);
-    for buf_line in reader.lines() {
-        let line = buf_line.unwrap();
-        match all_caps {
-            true => println!("{}", line.to_uppercase()),
-            false => println!("{}", line),
-        }
+type ResultOrError<T> = Result<T, Box<dyn Error>>;
+
+fn open(filename: &str) -> ResultOrError<Box<dyn BufRead>> {
+    match filename {
+        "-" => Ok(Box::new(BufReader::new(std::io::stdin()))),
+        _ => Ok(Box::new(BufReader::new(File::open(filename)?))),
     }
 }
 
-fn main() {
-    let matches = get_args();
+fn print_file_contents(filename: &str, all_caps: &bool) -> ResultOrError<()> {
+    match open(&filename) {
+        Err(e) => eprintln!("{}: {}", filename, e),
+        Ok(file) => {
+            for line_result in file.lines() {
+                let line = line_result?;
+                match all_caps {
+                    true => println!("{}", line.to_uppercase()),
+                    false => println!("{}", line),
+                }
+            }
+        }
+    }
+    Ok(())
+}
 
-    let all_caps = matches.is_present("all_caps");
+    fn main() {
+        let matches = get_args();
+
+        let all_caps = matches.is_present("all_caps");
 
     if let Some(filename) = matches.value_of("input_file") {
-        print_file_contents(filename, &all_caps);
+        print_file_contents(filename, &all_caps).unwrap();
     }
 }

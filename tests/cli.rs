@@ -22,11 +22,11 @@ fn run(args: &[&str], expected_file: &str) -> TestResult {
 }
 
 #[test]
-fn hello1() -> TestResult {
-    run(&["-f","just_a_test.txt"], "tests/expected/test_1.txt")
+fn file_to_stdout() -> TestResult {
+    run(&["-f","just_a_test.txt"], "tests/expected/print_text.txt")
 }
 
 #[test]
-fn hello2() -> TestResult {
-    run(&["-A", "-f","just_a_test.txt"], "tests/expected/test_2.txt")
+fn file_to_all_caps() -> TestResult {
+    run(&["-A", "-f","just_a_test.txt"], "tests/expected/print_text_as_all_caps.txt")
 }
